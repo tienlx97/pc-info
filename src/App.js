@@ -1,0 +1,373 @@
+/* eslint-disable jsx-a11y/alt-text */
+import "./App.css";
+import { useEffect, useState } from "react";
+import { Divider, Button } from "@fluentui/react-components";
+
+import Layout from "./components/layout";
+import InputComp from "./components/input";
+import Gender from "./components/gender";
+import { Department } from "./components/department";
+import { CompanySelect } from "./components/company";
+
+import { companyIDArr, departmentMap } from "./config/company";
+
+const si = window.require("systeminformation");
+const { ipcRenderer } = window.require("electron");
+
+const obj = {
+  cpu: "*",
+  cpuCache: "*",
+  mem: "*",
+  memLayout: "*",
+  graphics: "controllers, displays",
+  battery: "*",
+  osInfo: "*",
+  uuid: "*",
+  versions: "*",
+  diskLayout: "*",
+  networkInterfaces: "*",
+  networkGatewayDefault: "*",
+  networkInterfaceDefault: "*",
+  wifiNetworks: "*",
+  system: "*",
+  bios: "*",
+  baseboard: "*",
+  chassis: "*",
+  audio: "*",
+  bluetoothDevices: "*",
+  printer: "*",
+  usb: "*",
+};
+
+function App() {
+  //
+
+  const [companyId, selectCompanyId] = useState("cthanh");
+  const [department, setDepartment] = useState(null);
+  const [name, setName] = useState("");
+
+  const [siObject, setsiObject] = useState(null);
+  const [selectedMenuItemKey, setSelectedMenuItemKey] = useState("11");
+
+  useEffect(() => {
+    si.get(obj).then((data) => {
+      setsiObject(data);
+
+      ipcRenderer.send("async-operation-complete");
+    });
+  }, []);
+
+  return (
+    // <Layout hasSider>
+    //   <Sider
+    //     className="sider"
+    //     style={{
+    //       overflow: "auto",
+    //       height: "100%",
+    //       width: "100%",
+    //       position: "fixed",
+    //       left: 0,
+    //       top: 0,
+    //       bottom: 0,
+    //     }}
+    //   >
+    //     <div className="demo-logo-vertical" align="center">
+    //       <img
+    //         style={{ marginBottom: "10px", marginTop: "20px" }}
+    //         align="center"
+    //         src="logo192.png"
+    //         height={80}
+    //         width={90}
+    //         alt="logo"
+    //       />
+    //     </div>
+    //     {selectedMenuItemKey !== null ? (
+    //       <Menu
+    //         className="custom-menu"
+    //         mode="vertical"
+    //         theme="dark"
+    //         defaultSelectedKeys={selectedMenuItemKey}
+    //         onSelect={(e) => handleMenuChange(e.key)}
+    //         style={{
+    //           height: "100%",
+    //         }}
+    //         selectedKeys={selectedMenuItemKey}
+    //       >
+    //         <Menu.Item key="11">
+    //           <span>
+    //             <img
+    //               style={{ marginRight: "10px", marginBottom: "-7px" }}
+    //               src="menuIcons/home.png"
+    //               height={25}
+    //               width={25}
+    //             ></img>
+    //           </span>
+    //           HomePage
+    //         </Menu.Item>
+
+    //         <Menu.Item key="1">
+    //           <span>
+    //             <img
+    //               style={{ marginRight: "10px", marginBottom: "-7px" }}
+    //               src="menuIcons/system-info.png"
+    //               height={25}
+    //               width={25}
+    //             ></img>
+    //           </span>
+    //           System Info
+    //         </Menu.Item>
+
+    //         <Menu.Item key="2">
+    //           <span>
+    //             <img
+    //               style={{ marginRight: "10px", marginBottom: "-7px" }}
+    //               src="menuIcons/cpu.png"
+    //               height={25}
+    //               width={25}
+    //             ></img>
+    //           </span>
+    //           CPU
+    //         </Menu.Item>
+
+    //         <Menu.Item key="3">
+    //           <span>
+    //             <img
+    //               style={{ marginRight: "10px", marginBottom: "-7px" }}
+    //               src="menuIcons/ram.png"
+    //               height={25}
+    //               width={25}
+    //             ></img>
+    //           </span>
+    //           Memory
+    //         </Menu.Item>
+
+    //         <Menu.Item key="4">
+    //           <span>
+    //             <img
+    //               style={{ marginRight: "10px", marginBottom: "-7px" }}
+    //               src="menuIcons/gpu.png"
+    //               height={25}
+    //               width={25}
+    //             ></img>
+    //           </span>
+    //           Graphics
+    //         </Menu.Item>
+
+    //         <Menu.Item key="10">
+    //           <span>
+    //             <img
+    //               style={{ marginRight: "10px", marginBottom: "-7px" }}
+    //               src="menuIcons/display.png"
+    //               height={25}
+    //               width={25}
+    //             ></img>
+    //           </span>
+    //           Display
+    //         </Menu.Item>
+
+    //         <Menu.Item key="5">
+    //           <span>
+    //             <img
+    //               style={{ marginRight: "10px", marginBottom: "-7px" }}
+    //               src="menuIcons/battery.png"
+    //               height={25}
+    //               width={25}
+    //             ></img>
+    //           </span>
+    //           Battery
+    //         </Menu.Item>
+
+    //         <Menu.Item key="6">
+    //           <span>
+    //             <img
+    //               style={{ marginRight: "10px", marginBottom: "-7px" }}
+    //               src="menuIcons/windows.png"
+    //               height={25}
+    //               width={25}
+    //             ></img>
+    //           </span>
+    //           OS
+    //         </Menu.Item>
+
+    //         <Menu.Item key="7">
+    //           <span>
+    //             <img
+    //               style={{ marginRight: "10px", marginBottom: "-7px" }}
+    //               src="menuIcons/hdd.png"
+    //               height={25}
+    //               width={25}
+    //             ></img>
+    //           </span>
+    //           Storage Devices
+    //         </Menu.Item>
+
+    //         <Menu.Item key="8">
+    //           <span>
+    //             <img
+    //               style={{ marginRight: "10px", marginBottom: "-7px" }}
+    //               src="menuIcons/computer-networks.png"
+    //               height={25}
+    //               width={25}
+    //             ></img>
+    //           </span>
+    //           Network IF
+    //         </Menu.Item>
+
+    //         <Menu.Item key="9">
+    //           <span>
+    //             <img
+    //               style={{ marginRight: "10px", marginBottom: "-7px" }}
+    //               src="menuIcons/wifi.png"
+    //               height={25}
+    //               width={25}
+    //             ></img>
+    //           </span>
+    //           Wifi Networks
+    //         </Menu.Item>
+
+    //         <Menu.Item key="12">
+    //           <span>
+    //             <img
+    //               style={{ marginRight: "10px", marginBottom: "-7px" }}
+    //               src="menuIcons/audio.png"
+    //               height={25}
+    //               width={25}
+    //             ></img>
+    //           </span>
+    //           Audio
+    //         </Menu.Item>
+
+    //         <Menu.Item key="13">
+    //           <span>
+    //             <img
+    //               style={{ marginRight: "10px", marginBottom: "-7px" }}
+    //               src="menuIcons/bluetooth.png"
+    //               height={25}
+    //               width={25}
+    //             ></img>
+    //           </span>
+    //           Bluetooth Devices
+    //         </Menu.Item>
+
+    //         <Menu.Item key="14">
+    //           <span>
+    //             <img
+    //               style={{ marginRight: "10px", marginBottom: "-7px" }}
+    //               src="menuIcons/printer.png"
+    //               height={25}
+    //               width={25}
+    //             ></img>
+    //           </span>
+    //           Printers
+    //         </Menu.Item>
+
+    //         <Menu.Item key="15">
+    //           <span>
+    //             <img
+    //               style={{ marginRight: "10px", marginBottom: "-7px" }}
+    //               src="menuIcons/usb.png"
+    //               height={25}
+    //               width={25}
+    //             ></img>
+    //           </span>
+    //           USB Devices
+    //         </Menu.Item>
+    //       </Menu>
+    //     ) : null}
+    //   </Sider>
+    //   <Layout
+    //     className="site-layout"
+    //     style={{
+    //       marginLeft: 200,
+    //       // background: 'white',
+    //     }}
+    //   >
+    //     {/* <Header
+    //       style={{
+    //         position: 'fixed',
+    //         padding: 0,
+    //         background: 'black',
+    //       }}
+    //     /> */}
+    //     <Content
+    //       style={{
+    //         margin: "24px 16px 0",
+    //         overflow: "initial",
+    //         justifyContent: "center",
+    //       }}
+    //     >
+    //       <div>
+    //         {selectedMenuItemKey === "1" ? (
+    //           <SystemInfo siData={siObject} />
+    //         ) : selectedMenuItemKey === "2" ? (
+    //           <CPU siData={siObject} />
+    //         ) : selectedMenuItemKey === "3" ? (
+    //           <MemoryInfo siData={siObject} />
+    //         ) : selectedMenuItemKey === "4" ? (
+    //           <Graphics siData={siObject} />
+    //         ) : selectedMenuItemKey === "5" ? (
+    //           <Battery siData={siObject} />
+    //         ) : selectedMenuItemKey === "6" ? (
+    //           <OS siData={siObject} />
+    //         ) : selectedMenuItemKey === "7" ? (
+    //           <StorageDevices siData={siObject} />
+    //         ) : selectedMenuItemKey === "8" ? (
+    //           <NetworkInterfaces siData={siObject} />
+    //         ) : selectedMenuItemKey === "9" ? (
+    //           <WifiNetworks siData={siObject} />
+    //         ) : selectedMenuItemKey === "10" ? (
+    //           <Display siData={siObject} />
+    //         ) : selectedMenuItemKey === "11" ? (
+    //           <Home />
+    //         ) : selectedMenuItemKey === "12" ? (
+    //           <Audio siData={siObject} />
+    //         ) : selectedMenuItemKey === "13" ? (
+    //           <Bluetooth siData={siObject} />
+    //         ) : selectedMenuItemKey === "14" ? (
+    //           <Printers siData={siObject} />
+    //         ) : selectedMenuItemKey === "15" ? (
+    //           <USB siData={siObject} />
+    //         ) : null}
+    //       </div>
+    //     </Content>
+    //     <Footer
+    //       className="footer"
+    //       style={{
+    //         textAlign: "center",
+    //       }}
+    //     >
+    //       v0.1.8 SYSPeek - System Information Viewer {new Date().getFullYear()}{" "}
+    //       Made With ❤ By Muhammad Sheharyar Butt
+    //     </Footer>
+    //   </Layout>
+    // </Layout>
+    <Layout>
+      <CompanySelect
+        onCompanyChange={(ev, data) => {
+          selectCompanyId(data.value);
+        }}
+      />
+      <Department
+        onDepartmentSelected={(val) => {
+          setDepartment(val);
+        }}
+        defaultValue={departmentMap[companyId][0]}
+        companyId={companyId}
+      />
+      <InputComp
+        label="Họ tên"
+        placeholder="Nguyễn Văn A"
+        onChange={(ev, data) => {
+          console.log({ data });
+          setName(data.value);
+        }}
+      />
+      <Divider />
+      <Button disabled={name === ""} appearance="primary">
+        Gửi
+      </Button>
+    </Layout>
+  );
+}
+
+export default App;
