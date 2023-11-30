@@ -2,9 +2,9 @@ import {
   Combobox,
   makeStyles,
   Option,
-  shorthands,
   useId,
   Label,
+  mergeClasses,
 } from "@fluentui/react-components";
 
 import { departmentMap } from "../config/company";
@@ -13,12 +13,8 @@ import { useMemo, useState } from "react";
 
 const useStyles = makeStyles({
   root: {
-    // Stack the label above the field with a gap
-    display: "grid",
-    gridTemplateRows: "repeat(1fr)",
-    justifyItems: "start",
-    ...shorthands.gap("2px"),
-    // minWidth: "500px",
+    display: "flex",
+    flexDirection: "column",
   },
   listbox: {
     maxHeight: "300px",
@@ -29,6 +25,7 @@ export const Department = ({
   companyId,
   defaultValue,
   onDepartmentSelected,
+  className,
   ...props
 }) => {
   const comboId = useId("combo-department");
@@ -51,14 +48,14 @@ export const Department = ({
   }, [companyId, defaultValue]);
 
   return (
-    <div className={styles.root}>
+    <div className={mergeClasses(styles.root, className)}>
       <Label weight="semibold" id={comboId}>
         Phòng ban
       </Label>
       <Combobox
-        style={{
-          width: "50%",
-        }}
+        // style={{
+        //   width: "50%",
+        // }}
         aria-labelledby={comboId}
         listbox={{ className: styles.listbox }}
         placeholder="Chọn phòng ban"

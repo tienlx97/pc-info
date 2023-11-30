@@ -1,5 +1,11 @@
 import * as React from "react";
-import { makeStyles, Select, useId, Label } from "@fluentui/react-components";
+import {
+  makeStyles,
+  Select,
+  useId,
+  Label,
+  mergeClasses,
+} from "@fluentui/react-components";
 
 import { companyIDArr } from "../config/company";
 
@@ -7,16 +13,16 @@ const useStyles = makeStyles({
   base: {
     display: "flex",
     flexDirection: "column",
-    width: "50%",
+    // width: "50%",
   },
 });
 
-export const CompanySelect = ({ onCompanyChange }) => {
+export const CompanySelect = ({ onCompanyChange, className }) => {
   const styles = useStyles();
   const selectId = useId();
 
   return (
-    <div className={styles.base}>
+    <div className={mergeClasses(styles.base, className)}>
       <div className={styles.field}>
         <Label weight="semibold" htmlFor={`${selectId}-outline`}>
           Công ty

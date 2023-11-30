@@ -16,22 +16,29 @@ const useStyles = makeStyles({
   },
 });
 
-export default function InputComp({ placeholder, label, onChange }) {
-  const clases = useStyles();
+/**
+ *
+ * @param {import("./input").InputCompProps} props
+ */
+export default function InputComp(props) {
+  const { label, phone, setPhone, type, onChange, placeholder, ...rest } =
+    props;
 
+  const classes = useStyles();
   const beforeId = useId("content-before");
 
   return (
-    <div
-      style={{
-        width: "50%",
-      }}
-      className={clases.root}
-    >
+    <div className={classes.root}>
       <Label weight="semibold" htmlFor={beforeId}>
         {label}
       </Label>
-      <Input onChange={onChange} placeholder={placeholder} id={beforeId} />
+      <Input
+        {...rest}
+        type={type}
+        onChange={onChange}
+        placeholder={placeholder}
+        id={beforeId}
+      />
     </div>
   );
 }

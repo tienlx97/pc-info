@@ -9,6 +9,8 @@ import {
   Toast,
   Toaster,
   ToastTitle,
+  shorthands,
+  makeStyles,
 } from "@fluentui/react-components";
 
 import Layout from "./components/layout";
@@ -50,7 +52,23 @@ const obj = {
   usb: "*",
 };
 
+const useStyles = makeStyles({
+  companyDepartmentWrapper: {
+    ...shorthands.gap("1rem"),
+  },
+
+  companySplit: {
+    flexGrow: 1,
+  },
+
+  department: {
+    flexGrow: 3,
+  },
+});
+
 function App() {
+  const classes = useStyles();
+
   const toasterId = useId("toaster");
   const { dispatchToast } = useToastController(toasterId);
 
@@ -94,21 +112,40 @@ function App() {
 
   return (
     <Layout>
-      <CompanySelect
-        onCompanyChange={(ev, data) => {
-          selectCompanyId(data.value);
+      <div
+        className={classes.companyDepartmentWrapper}
+        style={{
+          display: "flex",
+          flexDirection: "row",
         }}
-      />
-      <Department
-        onDepartmentSelected={(val) => {
-          setDepartment(val);
-        }}
-        defaultValue={departmentMap[companyId][0]}
-        companyId={companyId}
-      />
+      >
+        <CompanySelect
+          className={classes.companySplit}
+          onCompanyChange={(ev, data) => {
+            selectCompanyId(data.value);
+          }}
+        />
+        <Department
+          className={classes.department}
+          onDepartmentSelected={(val) => {
+            setDepartment(val);
+          }}
+          defaultValue={departmentMap[companyId][0]}
+          companyId={companyId}
+        />
+      </div>
       <InputComp
         label="Họ tên"
         placeholder="Nguyễn Văn A"
+        onChange={(ev, data) => {
+          setName(data.value);
+        }}
+      />
+      <InputComp
+        label="Số điện thoại"
+        placeholder="0123-456-789"
+        type="tel"
+        pattern="[0-9]{4}-[0-9]{3}-[0-9]{3}"
         onChange={(ev, data) => {
           setName(data.value);
         }}
