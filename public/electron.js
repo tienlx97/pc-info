@@ -6,8 +6,8 @@ const url = require("url");
 // Create the native browser window.
 function createWindow() {
   const mainWindow = new BrowserWindow({
-    width: 1280,
-    height: 720,
+    width: 600,
+    height: 400,
 
     // Set the path of an additional "preload" script that can be used to
     // communicate between node-land and browser-land.
@@ -16,7 +16,7 @@ function createWindow() {
       nodeIntegration: true,
       contextIsolation: false,
     },
-    // resizable: false,
+    resizable: false,
     show: false,
   });
   mainWindow.setIcon(path.join(__dirname, "logo192.png"));
@@ -48,10 +48,14 @@ function createWindow() {
     mainWindow.show();
   });
 
+  ipcMain.on("close", () => {
+    mainWindow.destroy();
+  });
+
   // Automatically open Chrome's DevTools in development mode.
-  if (!app.isPackaged) {
-    mainWindow.webContents.openDevTools();
-  }
+  // if (!app.isPackaged) {
+  //   mainWindow.webContents.openDevTools();
+  // }
 }
 
 // Setup a local proxy to adjust the paths of requested files when loading

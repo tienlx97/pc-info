@@ -5,12 +5,17 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
 import { FluentProvider, teamsLightTheme } from "@fluentui/react-components";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <FluentProvider theme={teamsLightTheme}>
-    <App />
-  </FluentProvider>
+  <QueryClientProvider client={queryClient}>
+    <FluentProvider theme={teamsLightTheme}>
+      <App />
+    </FluentProvider>
+  </QueryClientProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

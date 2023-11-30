@@ -18,7 +18,7 @@ const useStyles = makeStyles({
     gridTemplateRows: "repeat(1fr)",
     justifyItems: "start",
     ...shorthands.gap("2px"),
-    maxWidth: "500px",
+    // minWidth: "500px",
   },
   listbox: {
     maxHeight: "300px",
@@ -56,6 +56,9 @@ export const Department = ({
         Phòng ban
       </Label>
       <Combobox
+        style={{
+          width: "50%",
+        }}
         aria-labelledby={comboId}
         listbox={{ className: styles.listbox }}
         placeholder="Chọn phòng ban"
