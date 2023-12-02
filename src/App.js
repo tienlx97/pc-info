@@ -11,12 +11,15 @@ import {
   ToastTitle,
   shorthands,
   makeStyles,
+  tokens,
 } from "@fluentui/react-components";
 
 import Layout from "./components/layout";
 import InputComp from "./components/input";
+import PhoneInput from "./components/phone-input/index";
 import { Department } from "./components/department";
 import { CompanySelect } from "./components/company";
+import { Software } from "./components/software";
 
 import { companyIDArr, departmentMap } from "./config/company";
 
@@ -64,6 +67,17 @@ const useStyles = makeStyles({
   department: {
     flexGrow: 3,
   },
+
+  cutomDivider: {
+    fontSize: "14px",
+    fontWeight: "bold",
+    "::before": {
+      ...shorthands.borderColor(tokens.colorPaletteRedBorder2),
+    },
+    "::after": {
+      ...shorthands.borderColor(tokens.colorPaletteRedBorder2),
+    },
+  },
 });
 
 function App() {
@@ -100,6 +114,8 @@ function App() {
   const [companyId, selectCompanyId] = useState("cthanh");
   const [department, setDepartment] = useState(departmentMap.cthanh[0]);
   const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [software, setSoftware] = useState("");
 
   const [siObject, setsiObject] = useState(null);
 
@@ -141,27 +157,47 @@ function App() {
           setName(data.value);
         }}
       />
-      <InputComp
-        label="Số điện thoại"
-        placeholder="0123-456-789"
-        type="tel"
-        pattern="[0-9]{4}-[0-9]{3}-[0-9]{3}"
+
+      <Software
         onChange={(ev, data) => {
-          setName(data.value);
+          setSoftware(data.value);
         }}
       />
-      <Divider />
+
+      <PhoneInput
+        label="Điện thoại"
+        placeholder="012 345 6789"
+        type="tel"
+        onChange={(data) => {
+          const phoneWithoutHyphen = data.replace(/-/g, "");
+
+          setPhone(phoneWithoutHyphen.length === 10 ? data : undefined);
+        }}
+      />
+
+      <Divider className={classes.cutomDivider} appearance="brand">
+        Khuyến khích chỉ ghi 1 lần
+      </Divider>
       <Button
         onClick={async () => {
           mutation.mutate({
             // id,
             name,
+            phone,
             company: companyIDArr[companyId],
             departmentName: department,
+            software,
             pcInfo: siObject,
           });
         }}
-        disabled={name === "" || mutation.isPending || mutation.isSuccess}
+        disabled={
+          name === "" ||
+          phone === "" ||
+          !phone ||
+          software === "" ||
+          mutation.isPending ||
+          mutation.isSuccess
+        }
         appearance="primary"
       >
         Gửi

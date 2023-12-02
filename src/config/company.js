@@ -11,6 +11,7 @@ export const departmentMap = {
     "Phòng vật tư",
     "Phòng dự toán đấu thầu",
     "Phòng nhân sự",
+    "Phòng khác",
   ],
   dNghia: [
     "Phòng thiết kế",
@@ -19,5 +20,6 @@ export const departmentMap = {
     "Phòng vật tư",
     "Phòng dự toán đấu thầu",
     "Phòng kỹ thuật",
+    "Phòng khác",
   ],
 };

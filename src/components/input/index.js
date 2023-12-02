@@ -6,6 +6,7 @@ import {
   Input,
   Label,
   useId,
+  InfoLabel,
 } from "@fluentui/react-components";
 
 const useStyles = makeStyles({
@@ -29,9 +30,9 @@ export default function InputComp(props) {
 
   return (
     <div className={classes.root}>
-      <Label weight="semibold" htmlFor={beforeId}>
+      <InfoLabel weight="semibold" htmlFor={beforeId} required>
         {label}
-      </Label>
+      </InfoLabel>
       <Input
         {...rest}
         type={type}

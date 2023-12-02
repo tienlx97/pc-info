@@ -5,6 +5,7 @@ import {
   useId,
   Label,
   mergeClasses,
+  InfoLabel,
 } from "@fluentui/react-components";
 
 import { companyIDArr } from "../config/company";
@@ -24,9 +25,14 @@ export const CompanySelect = ({ onCompanyChange, className }) => {
   return (
     <div className={mergeClasses(styles.base, className)}>
       <div className={styles.field}>
-        <Label weight="semibold" htmlFor={`${selectId}-outline`}>
+        <InfoLabel
+          weight="semibold"
+          htmlFor={`${selectId}-outline`}
+          info="Công ty đang làm việc"
+          required
+        >
           Công ty
-        </Label>
+        </InfoLabel>
         <Select
           onChange={onCompanyChange}
           id={`${selectId}-outline`}

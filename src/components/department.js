@@ -5,6 +5,7 @@ import {
   useId,
   Label,
   mergeClasses,
+  InfoLabel,
 } from "@fluentui/react-components";
 
 import { departmentMap } from "../config/company";
@@ -49,9 +50,14 @@ export const Department = ({
 
   return (
     <div className={mergeClasses(styles.root, className)}>
-      <Label weight="semibold" id={comboId}>
+      <InfoLabel
+        weight="semibold"
+        id={comboId}
+        info="Phòng ban đang làm việc"
+        required
+      >
         Phòng ban
-      </Label>
+      </InfoLabel>
       <Combobox
         // style={{
         //   width: "50%",
