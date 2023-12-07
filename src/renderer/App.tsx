@@ -79,6 +79,7 @@ const departmentList: Record<CompanyKeys, string[]> = {
     'Phòng vật tư',
     'Phòng dự toán đấu thầu',
     'Phòng nhân sự',
+    'Phòng ban khác',
   ],
   dn: [
     'Phòng thiết kế',
@@ -87,6 +88,7 @@ const departmentList: Record<CompanyKeys, string[]> = {
     'Phòng vật tư',
     'Phòng dự toán đấu thầu',
     'Phòng kỹ thuật',
+    'Phòng ban khác',
   ],
 };
 
